@@ -9,14 +9,15 @@ import springBoot.Services.CarService;
 import springBoot.domain.Car;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class CarsController {
     @Autowired
     CarService carService;
     @GetMapping("/cars")
-    public String showCars(@RequestParam(value = "count", required = false, defaultValue = "10") int value, Model model) {
-        List<Car> list = carService.getAll();
+    public String showCars(@RequestParam(value = "count", required = false, defaultValue = "100000") int value, Model model) {
+        List<Car> list = carService.getLimit(value);
         for (Car car : list) {
             System.out.println(car.getBrand());
             System.out.println(car.getModel());
