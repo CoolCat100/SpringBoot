@@ -17,10 +17,10 @@
         <th>power</th>
     </tr>
 
-    <tr th:each="lst : ${list}">
-        <td th:utext="${lst.brand}">brand</td>
-        <td th:utext="${lst.model}">model</td>
-        <td th:utext="${lst.power}">power</td>
+    <tr th:each="car : ${list}">
+        <td th:utext="${car.getBrand()}">brand></td>
+        <td th:utext="${car.getModel()}">model</td>
+        <td th:utext="${car.getPower()}">power</td>
     </tr>
 
 </table>

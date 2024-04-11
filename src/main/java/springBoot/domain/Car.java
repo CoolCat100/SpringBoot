@@ -7,22 +7,22 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String mark;
+    private String brand;
     private String model;
     private int power;
     public Car(String mark, String model, int power){
-        this.mark = mark;
+        this.brand = mark;
         this.model = model;
         this.power = power;
     }
     public Car() {}
 
-    public String getMark() {
-        return mark;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setBrand(String mark) {
+        this.brand = mark;
     }
 
     public String getModel() {
