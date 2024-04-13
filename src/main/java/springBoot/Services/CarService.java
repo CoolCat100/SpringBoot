@@ -1,5 +1,6 @@
 package springBoot.Services;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import springBoot.domain.Car;
 import springBoot.repos.CarRepo;
@@ -25,5 +26,9 @@ public class CarService {
             }
         }
         return list;
+    }
+
+    public CarRepo getCarRepo() {
+        return carRepo;
     }
 }

@@ -1,0 +1,18 @@
+car:
+  maxCars: 3
+  sorting:
+    fields:
+      power, 
+      brand
+spring:
+  application:
+    name: Cars
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: root
+    url: jdbc:postgresql://localhost:5432/cars
+    username: postgres
+jpa:
+  properties:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQL9Dialect
