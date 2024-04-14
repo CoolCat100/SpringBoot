@@ -19,14 +19,9 @@ public class CarController {
     CarService carService;
 
     @GetMapping("/cars")
-    public String showCars(@RequestParam(value = "count", required = false, defaultValue = "-1") int value,
-                           @RequestParam(name = "sortBy", required = false) String name, Model model) {
-        List<Car> cars = null;
-        if (name == null) {
-            cars = carService.showCars(value);
-        } else {
-            cars = carService.showSortedCars(value, name);
-        }
+    public String showCars(@RequestParam(value = "count", required = false, defaultValue = "-1") int limit,
+                           @RequestParam(name = "sortBy", required = false) String sortedBy, Model model) {
+        List<Car> cars = carService.getCars(limit, sortedBy);
         model.addAttribute("list", cars);
         return "cars";
     }

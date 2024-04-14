@@ -1,6 +1,7 @@
 package springBoot.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import springBoot.domain.Car;
 import springBoot.exception.BadRequestException;
@@ -22,58 +23,41 @@ public class CarService {
         this.carRepo = carRepo;
     }
 
-    public List<Car> getAll() {
-        return (List<Car>) carRepo.findAll();
+    public List<Car> getCars(int limit, String sortBy) {
+        if (sortBy == null) {
+            return getLimitCar(limit);
+        } else {
+            return getSortedCar(limit, sortBy);
+        }
     }
 
-    public List<Car> getLimit(int limit) {
-        return getAll().stream().limit(limit).collect(Collectors.toList());
+    public List<Car> getLimitCar(int limit) {
+        limit = checkLimit(limit);
+        List<Car> cars = (List<Car>) carRepo.findAll();
+        return cars.stream().limit(limit).collect(Collectors.toList());
     }
-    public List<Car> sortByBrand(int value) {
-        return carRepo.findAllByOrderByBrandAsc().stream().limit(value).collect(Collectors.toList());
-    }
-    public List<Car> sortByModel(int value) {
-        return carRepo.findAllByOrderByModelAsc().stream().limit(value).collect(Collectors.toList());
-    }
-    public List<Car> sortByPower(int value) {
-        return carRepo.findAllByOrderByPowerAsc().stream().limit(value).collect(Collectors.toList());
-    }
-    public List<Car> showCars(int value) {
-        List<Car> cars = null;
-        if (value == -1 || value >= maxCars) {
-            cars = getAll();
-        } else {
-            cars = getLimit(value);
-        }
-        return cars;
-    }
-    public List<Car> showSortedCars(int value, String name) {
-        List<Car> cars = null;
-        boolean trueFilter = false;
-        if (value == -1 || value >= maxCars) {
-            value = Integer.MAX_VALUE;
-        }
+
+    public List<Car> getSortedCar(int limit, String sortBy) {
+        limit = checkLimit(limit);
         List<String> filters = List.of(allFilters.split(", "));
+        boolean trueFilter = false;
         for (String filter : filters) {
-            if (name.equals(filter) && filter.equals("brand")) {
-                cars = sortByBrand(value);
+            if (sortBy.equals(filter)) {
                 trueFilter = true;
-                break;
-            }
-            if (name.equals(filter) && filter.equals("model")) {
-                cars = sortByModel(value);
-                trueFilter = true;
-                break;
-            }
-            if (name.equals(filter) && filter.equals("power")) {
-                cars = sortByPower(value);
-                trueFilter = true;
-                break;
             }
         }
         if (!trueFilter) {
             throw new BadRequestException();
         }
-        return cars;
+        List<Car> cars = (List<Car>) carRepo.findAll(Sort.by(sortBy).ascending());
+        return cars.stream().limit(limit).collect(Collectors.toList());
+    }
+
+    private int checkLimit(int limit) {
+        if (limit == -1 || limit >= maxCars) {
+            return Integer.MAX_VALUE;
+        } else {
+            return limit;
+        }
     }
 }
