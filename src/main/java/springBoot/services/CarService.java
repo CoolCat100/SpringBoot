@@ -1,13 +1,11 @@
-package springBoot.Services;
+package springBoot.services;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import springBoot.domain.Car;
 import springBoot.repos.CarRepo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CarService {
