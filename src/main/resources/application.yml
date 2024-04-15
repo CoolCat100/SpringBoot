@@ -1,8 +1,7 @@
 car:
   maxCars: 3
   sorting:
-    fields:
-      power, 
+      power,
       brand
 spring:
   application:

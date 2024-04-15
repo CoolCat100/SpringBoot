@@ -1,23 +1,21 @@
 package springBoot.service;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import springBoot.configuration.ConfigProperties;
 import springBoot.domain.Car;
 import springBoot.exception.BadRequestException;
 import springBoot.repos.CarRepo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CarService {
+    @Autowired
+    private ConfigProperties configProperties;
     private final CarRepo carRepo;
-    @Value("${car.maxCars}")
-    private int maxCars;
-    @Value("${car.sorting.fields}")
-    private String allFilters;
 
     public CarService(CarRepo carRepo) {
         this.carRepo = carRepo;
@@ -39,7 +37,7 @@ public class CarService {
 
     public List<Car> getSortedCar(int limit, String sortBy) {
         limit = checkLimit(limit);
-        List<String> filters = List.of(allFilters.split(", "));
+        List<String> filters = configProperties.getSorting();
         boolean trueFilter = false;
         for (String filter : filters) {
             if (sortBy.equals(filter)) {
@@ -54,7 +52,7 @@ public class CarService {
     }
 
     private int checkLimit(int limit) {
-        if (limit == -1 || limit >= maxCars) {
+        if (limit == -1 || limit >= configProperties.getMaxCars()) {
             return Integer.MAX_VALUE;
         } else {
             return limit;
