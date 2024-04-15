@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class CarService {
-    @Autowired
-    private ConfigProperties configProperties;
+    private final ConfigProperties configProperties;
     private final CarRepo carRepo;
 
-    public CarService(CarRepo carRepo) {
+    public CarService(CarRepo carRepo, ConfigProperties configProperties) {
         this.carRepo = carRepo;
+        this.configProperties = configProperties;
     }
 
     public List<Car> getCars(int limit, String sortBy) {
@@ -38,17 +38,12 @@ public class CarService {
     public List<Car> getSortedCar(int limit, String sortBy) {
         limit = checkLimit(limit);
         List<String> filters = configProperties.getSorting();
-        boolean trueFilter = false;
-        for (String filter : filters) {
-            if (sortBy.equals(filter)) {
-                trueFilter = true;
-            }
-        }
-        if (!trueFilter) {
+        if (filters.contains(sortBy)) {
+            List<Car> cars = (List<Car>) carRepo.findAll(Sort.by(sortBy).ascending());
+            return cars.stream().limit(limit).collect(Collectors.toList());
+        } else {
             throw new BadRequestException();
         }
-        List<Car> cars = (List<Car>) carRepo.findAll(Sort.by(sortBy).ascending());
-        return cars.stream().limit(limit).collect(Collectors.toList());
     }
 
     private int checkLimit(int limit) {

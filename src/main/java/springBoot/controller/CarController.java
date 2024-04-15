@@ -13,7 +13,7 @@ import java.util.List;
 @Controller
 public class CarController {
     @Autowired
-    CarService carService;
+    private CarService carService;
 
     @GetMapping("/cars")
     public String showCars(@RequestParam(value = "count", required = false, defaultValue = "-1") int limit,
