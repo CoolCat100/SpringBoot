@@ -7,7 +7,7 @@ import java.util.List;
 
 @Configuration
 @ConfigurationProperties("car")
-public class ConfigProperties {
+public class CarConfigProperties {
     private int maxCars;
     private List<String> sorting;
 

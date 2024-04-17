@@ -15,12 +15,14 @@
         <th>brand</th>
         <th>model</th>
         <th>power</th>
+        <th>price</th>
     </tr>
 
     <tr th:each="car : ${list}">
         <td th:utext="${car.getBrand()}">brand></td>
         <td th:utext="${car.getModel()}">model</td>
         <td th:utext="${car.getPower()}">power</td>
+        <td th:utext="${car.getPrice()}">power</td>
     </tr>
 
 </table>

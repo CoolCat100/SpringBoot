@@ -1,9 +1,8 @@
 package springBoot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import springBoot.configuration.ConfigProperties;
+import springBoot.configuration.CarConfigProperties;
 import springBoot.domain.Car;
 import springBoot.exception.BadRequestException;
 import springBoot.repos.CarRepo;
@@ -13,10 +12,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class CarService {
-    private final ConfigProperties configProperties;
+    private final CarConfigProperties configProperties;
     private final CarRepo carRepo;
 
-    public CarService(CarRepo carRepo, ConfigProperties configProperties) {
+    public CarService(CarRepo carRepo, CarConfigProperties configProperties) {
         this.carRepo = carRepo;
         this.configProperties = configProperties;
     }

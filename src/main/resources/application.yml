@@ -3,6 +3,11 @@ car:
   sorting:
       power,
       brand
+user:
+  loan.minimalIncome: 40000
+  loan.minCarPrice: 1000000
+  loan.valueOfIncomeMonth: 6
+  loan.coefficientOfCarPrice: 0.3
 spring:
   application:
     name: Cars
