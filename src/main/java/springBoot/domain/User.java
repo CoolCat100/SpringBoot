@@ -2,23 +2,22 @@ package springBoot.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "users")
 public class User {
-    private int id;
-    private int income;
-    private int carPrice;
-
-    public int getIncome() {
-        return income;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    @OneToOne
+    private Car car;
+    public User(Car car) {
+        this.car = car;
     }
+    public User(){}
 
-    public void setIncome(int income) {
-        this.income = income;
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -26,11 +25,11 @@ public class User {
         this.id = id;
     }
 
-    public int getCarPrice() {
-        return carPrice;
+    public Car getCar() {
+        return car;
     }
 
-    public void setCarPrice(int carPrice) {
-        this.carPrice = carPrice;
+    public void setCar(Car car) {
+        this.car = car;
     }
 }
