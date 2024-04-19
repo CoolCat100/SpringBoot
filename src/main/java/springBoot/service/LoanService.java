@@ -19,29 +19,21 @@ public class LoanService {
     }
 
     public double countValueOfMaxCredit(long id) {
-        if (canGetCredit(id)) {
-            return getSumOfMaxCredit(id);
+        long income = incomeService.getUserIncome(id);
+        int carPrice = userService.getUserCarPrice(id);
+        if (canGetCredit(income, carPrice)) {
+            return getSumOfMaxCredit(income, carPrice);
         } else return 0;
     }
 
-    private boolean canGetCredit(long id) {
-        long income = incomeService.getUserIncome(id);
-        Car car = userService.getUser(id).getCar();
-        if (car != null) {
-            long carPrice = car.getPrice();
+    private boolean canGetCredit(long income, int carPrice) {
             return income > userConfigProperties.getMinimalIncome() || carPrice > userConfigProperties.getMinCarPrice();
-        }
-        return income > userConfigProperties.getMinimalIncome();
     }
 
-    private double getSumOfMaxCredit(long id) {
-        long income = incomeService.getUserIncome(id);
+    private double getSumOfMaxCredit(long income, int carPrice) {
         int valueOfMonthIncome = userConfigProperties.getValueOfMonthIncome();
-        User user = userService.getUser(id);
-        int carPrice = user.getCar().getPrice();
         double coefficientOfCarPrice = userConfigProperties.getCoefficientOfCarPrice();
-        if (user.getCar() == null ||
-                income * valueOfMonthIncome > carPrice * coefficientOfCarPrice) {
+        if (income * valueOfMonthIncome > carPrice * coefficientOfCarPrice) {
             return income * valueOfMonthIncome;
         } else {
             return carPrice * coefficientOfCarPrice;

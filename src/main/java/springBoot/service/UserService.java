@@ -29,4 +29,13 @@ public class UserService {
         }
         return user;
     }
+    public int getUserCarPrice(long id) {
+        User user = getUser(id);
+        Car car = user.getCar();
+        if (car == null) {
+            return 0;
+        } else {
+            return car.getPrice();
+        }
+    }
 }
