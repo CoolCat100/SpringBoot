@@ -12,13 +12,11 @@ import java.util.List;
 public class IncomeService {
     private final RestTemplate restTemplate;
     private final UserConfigProperties userConfigProperties;
-    private final UserService userService;
 
 
     public IncomeService(RestTemplate restTemplate, UserConfigProperties userConfigProperties, UserService userService, MappingUtils mappingUtils) {
         this.restTemplate = restTemplate;
         this.userConfigProperties = userConfigProperties;
-        this.userService = userService;
     }
 
     public long getUserIncome(long id) {
