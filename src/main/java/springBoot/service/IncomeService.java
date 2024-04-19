@@ -14,7 +14,7 @@ public class IncomeService {
     private final UserConfigProperties userConfigProperties;
 
 
-    public IncomeService(RestTemplate restTemplate, UserConfigProperties userConfigProperties, UserService userService, MappingUtils mappingUtils) {
+    public IncomeService(RestTemplate restTemplate, UserConfigProperties userConfigProperties) {
         this.restTemplate = restTemplate;
         this.userConfigProperties = userConfigProperties;
     }
