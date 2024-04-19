@@ -13,31 +13,41 @@ public class LoanService {
     private final IncomeService incomeService;
     private final MappingUtils mappingUtils;
 
-    public LoanService(UserConfigProperties userConfigProperties, UserService userService, IncomeService incomeService, MappingUtils mappingUtils) {
+
+    public LoanService(UserConfigProperties userConfigProperties, UserService userService, IncomeService incomeService, MappingUtils mappingUtils, MappingUtils mappingUtils1) {
         this.userConfigProperties = userConfigProperties;
         this.userService = userService;
         this.incomeService = incomeService;
-        this.mappingUtils = mappingUtils;
+        this.mappingUtils = mappingUtils1;
     }
 
-    private boolean solvency(UserDto user) {
-        if (user.getCar() != null) {
-            return user.getIncome() > userConfigProperties.getMinimalIncome() || user.getCar().getPrice() > userConfigProperties.getMinCarPrice();
-        }
-        return user.getIncome() > userConfigProperties.getMinimalIncome();
-    }
-    private double getSumOfMaxCredit(UserDto user) {
-        if (user.getCar() == null ||
-                user.getIncome() * userConfigProperties.getValueOfIncomeMonth() > user.getCar().getPrice() * userConfigProperties.getCoefficientOfCarPrice()) {
-            return user.getIncome() * userConfigProperties.getValueOfIncomeMonth();
-        } else {
-            return user.getCar().getPrice() * userConfigProperties.getCoefficientOfCarPrice();
-        }
-    }
     public double countValueOfMaxCredit(long id) {
-        UserDto user = incomeService.getUserIncome(id, mappingUtils.mapToProductDto(userService.getUser(id)));
-        if (solvency(user)) {
-            return getSumOfMaxCredit(user);
+        User user = userService.getUser(id);
+        UserDto userDto = mappingUtils.mapToUserDto(user);
+        userDto.setIncome(incomeService.getUserIncome(id));
+        if (canGetCredit(userDto)) {
+            return getSumOfMaxCredit(userDto);
         } else return 0;
+    }
+
+    private boolean canGetCredit(UserDto user) {
+        long income = user.getIncome();
+        if (user.getCar() != null) {
+            long carPrice = user.getCar().getPrice();
+            return income > userConfigProperties.getMinimalIncome() || carPrice > userConfigProperties.getMinCarPrice();
+        }
+        return income > userConfigProperties.getMinimalIncome();
+    }
+
+    private double getSumOfMaxCredit(UserDto user) {
+        int valueOfMonthIncome = userConfigProperties.getValueOfMonthIncome();
+        int carPrice = user.getCar().getPrice();
+        double coefficientOfCarPrice = userConfigProperties.getCoefficientOfCarPrice();
+        if (user.getCar() == null ||
+                user.getIncome() * valueOfMonthIncome > carPrice * coefficientOfCarPrice) {
+            return user.getIncome() * valueOfMonthIncome;
+        } else {
+            return carPrice * coefficientOfCarPrice;
+        }
     }
 }

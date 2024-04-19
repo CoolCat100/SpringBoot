@@ -4,7 +4,7 @@ import springBoot.domain.Car;
 
 public class UserDto {
     private long id;
-    private int income;
+    private long income;
     private Car car;
 
     public long getId() {
@@ -15,11 +15,11 @@ public class UserDto {
         this.id = id;
     }
 
-    public int getIncome() {
+    public long getIncome() {
         return income;
     }
 
-    public void setIncome(int income) {
+    public void setIncome(long income) {
         this.income = income;
     }
 

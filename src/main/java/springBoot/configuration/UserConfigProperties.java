@@ -8,8 +8,9 @@ import org.springframework.context.annotation.Configuration;
 public class UserConfigProperties {
     private int minimalIncome;
     private int minCarPrice;
-    private int valueOfIncomeMonth;
+    private int valueOfMonthIncome;
     private double coefficientOfCarPrice;
+    private String IncomeUrl;
 
     public int getMinimalIncome() {
         return minimalIncome;
@@ -27,12 +28,12 @@ public class UserConfigProperties {
         this.minCarPrice = minCarPrice;
     }
 
-    public int getValueOfIncomeMonth() {
-        return valueOfIncomeMonth;
+    public int getValueOfMonthIncome() {
+        return valueOfMonthIncome;
     }
 
     public void setValueOfIncomeMonth(int valueOfIncomeMonth) {
-        this.valueOfIncomeMonth = valueOfIncomeMonth;
+        this.valueOfMonthIncome = valueOfIncomeMonth;
     }
 
     public double getCoefficientOfCarPrice() {
@@ -41,5 +42,13 @@ public class UserConfigProperties {
 
     public void setCoefficientOfCarPrice(double coefficientOfCarPrice) {
         this.coefficientOfCarPrice = coefficientOfCarPrice;
+    }
+
+    public String getIncomeUrl() {
+        return IncomeUrl;
+    }
+
+    public void setIncomeUrl(String incomeUrl) {
+        IncomeUrl = incomeUrl;
     }
 }
