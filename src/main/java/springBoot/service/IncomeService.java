@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import springBoot.configuration.UserConfigProperties;
 import springBoot.dto.UserDto;
-import springBoot.utils.MappingUtils;
 
 import java.util.List;
 

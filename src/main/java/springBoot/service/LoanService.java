@@ -2,50 +2,47 @@ package springBoot.service;
 
 import org.springframework.stereotype.Service;
 import springBoot.configuration.UserConfigProperties;
+import springBoot.domain.Car;
 import springBoot.domain.User;
-import springBoot.dto.UserDto;
-import springBoot.utils.MappingUtils;
 
 @Service
 public class LoanService {
     private final UserConfigProperties userConfigProperties;
     private final UserService userService;
     private final IncomeService incomeService;
-    private final MappingUtils mappingUtils;
 
 
-    public LoanService(UserConfigProperties userConfigProperties, UserService userService, IncomeService incomeService, MappingUtils mappingUtils, MappingUtils mappingUtils1) {
+    public LoanService(UserConfigProperties userConfigProperties, UserService userService, IncomeService incomeService) {
         this.userConfigProperties = userConfigProperties;
         this.userService = userService;
         this.incomeService = incomeService;
-        this.mappingUtils = mappingUtils1;
     }
 
     public double countValueOfMaxCredit(long id) {
-        User user = userService.getUser(id);
-        UserDto userDto = mappingUtils.mapToUserDto(user);
-        userDto.setIncome(incomeService.getUserIncome(id));
-        if (canGetCredit(userDto)) {
-            return getSumOfMaxCredit(userDto);
+        if (canGetCredit(id)) {
+            return getSumOfMaxCredit(id);
         } else return 0;
     }
 
-    private boolean canGetCredit(UserDto user) {
-        long income = user.getIncome();
-        if (user.getCar() != null) {
-            long carPrice = user.getCar().getPrice();
+    private boolean canGetCredit(long id) {
+        long income = incomeService.getUserIncome(id);
+        Car car = userService.getUser(id).getCar();
+        if (car != null) {
+            long carPrice = car.getPrice();
             return income > userConfigProperties.getMinimalIncome() || carPrice > userConfigProperties.getMinCarPrice();
         }
         return income > userConfigProperties.getMinimalIncome();
     }
 
-    private double getSumOfMaxCredit(UserDto user) {
+    private double getSumOfMaxCredit(long id) {
+        long income = incomeService.getUserIncome(id);
         int valueOfMonthIncome = userConfigProperties.getValueOfMonthIncome();
+        User user = userService.getUser(id);
         int carPrice = user.getCar().getPrice();
         double coefficientOfCarPrice = userConfigProperties.getCoefficientOfCarPrice();
         if (user.getCar() == null ||
-                user.getIncome() * valueOfMonthIncome > carPrice * coefficientOfCarPrice) {
-            return user.getIncome() * valueOfMonthIncome;
+                income * valueOfMonthIncome > carPrice * coefficientOfCarPrice) {
+            return income * valueOfMonthIncome;
         } else {
             return carPrice * coefficientOfCarPrice;
         }
