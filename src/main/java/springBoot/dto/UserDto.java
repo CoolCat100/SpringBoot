@@ -1,24 +1,12 @@
 package springBoot.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import springBoot.domain.Car;
 
+@Getter
+@Setter
 public class UserDto {
     private long id;
     private long income;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getIncome() {
-        return income;
-    }
-
-    public void setIncome(long income) {
-        this.income = income;
-    }
 }

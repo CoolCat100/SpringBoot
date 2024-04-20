@@ -1,5 +1,6 @@
 package springBoot.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import springBoot.configuration.UserConfigProperties;
@@ -8,15 +9,11 @@ import springBoot.dto.UserDto;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class IncomeService {
     private final RestTemplate restTemplate;
     private final UserConfigProperties userConfigProperties;
 
-
-    public IncomeService(RestTemplate restTemplate, UserConfigProperties userConfigProperties) {
-        this.restTemplate = restTemplate;
-        this.userConfigProperties = userConfigProperties;
-    }
 
     public long getUserIncome(long id) {
         List<UserDto> users = getUsersDto();

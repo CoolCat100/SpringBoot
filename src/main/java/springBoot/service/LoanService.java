@@ -1,22 +1,17 @@
 package springBoot.service;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 import springBoot.configuration.UserConfigProperties;
-import springBoot.domain.Car;
-import springBoot.domain.User;
 
 @Service
+@AllArgsConstructor
 public class LoanService {
     private final UserConfigProperties userConfigProperties;
     private final UserService userService;
     private final IncomeService incomeService;
 
-
-    public LoanService(UserConfigProperties userConfigProperties, UserService userService, IncomeService incomeService) {
-        this.userConfigProperties = userConfigProperties;
-        this.userService = userService;
-        this.incomeService = incomeService;
-    }
 
     public double countValueOfMaxCredit(long id) {
         long income = incomeService.getUserIncome(id);

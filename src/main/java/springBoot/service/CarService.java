@@ -1,5 +1,6 @@
 package springBoot.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import springBoot.configuration.CarConfigProperties;
@@ -11,14 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class CarService {
     private final CarConfigProperties configProperties;
     private final CarRepo carRepo;
-
-    public CarService(CarRepo carRepo, CarConfigProperties configProperties) {
-        this.carRepo = carRepo;
-        this.configProperties = configProperties;
-    }
 
     public List<Car> getCars(int limit, String sortBy) {
         if (sortBy == null) {
