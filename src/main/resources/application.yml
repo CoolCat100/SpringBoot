@@ -4,11 +4,13 @@ car:
       power,
       brand
 user:
-  loan.incomeUrl: https://66055cd12ca9478ea1801f2e.mockapi.io/api/users/income
   loan.minimalIncome: 40000
   loan.minCarPrice: 1000000
-  loan.valueOfIncomeMonth: 6
   loan.coefficientOfCarPrice: 0.3
+  loan:
+    value-of-month-income: 6
+starter-income:
+  path: https://66055cd12ca9478ea1801f2e.mockapi.io/api/users/income
 spring:
   application:
     name: Cars

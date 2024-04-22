@@ -3,6 +3,7 @@ package springBoot.service;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import service.IncomeClient;
 import springBoot.configuration.UserConfigProperties;
 
 @Service
@@ -10,11 +11,11 @@ import springBoot.configuration.UserConfigProperties;
 public class LoanService {
     private final UserConfigProperties userConfigProperties;
     private final UserService userService;
-    private final IncomeService incomeService;
+    private final IncomeClient incomeClient;
 
 
     public double countValueOfMaxCredit(long id) {
-        long income = incomeService.getUserIncome(id);
+        long income = incomeClient.getUserIncome(id);
         int carPrice = userService.getUserCarPrice(id);
         if (canGetCredit(income, carPrice)) {
             return getSumOfMaxCredit(income, carPrice);
